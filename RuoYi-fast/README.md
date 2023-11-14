@@ -1,90 +1,33 @@
 ## 平台简介
 
-一直想做一款后台管理系统，看了很多优秀的开源项目但是发现没有合适的。于是利用空闲休息时间开始自己写了一套后台系统。如此有了若依。她可以用于所有的Web应用程序，如网站管理后台，网站会员中心，CMS，CRM，OA。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
+> PingFLow是基于若依 [RuoYi](https://gitee.com/y_project/RuoYi)  开发的一个ETL调度平台工具
+> 平台使用若依单体的SprintBoot版本，且改为内嵌入H2数据库，非常轻量。
+> ~ 感谢@DM 大铭提供算法指导hahahahaha。
 
-性别男，若依是给还没有出生女儿取的名字（寓意：你若不离不弃，我必生死相依）
+## 内置功能（除若依自带的功能外）
 
-若依参考后台模板。有需要可自行到群内下载。
-
-> 如需多模块，请移步 [RuoYi](https://gitee.com/y_project/RuoYi)  `(保持同步更新)`，如需其他版本，请移步 [项目扩展](http://doc.ruoyi.vip/#/standard/xmkz)  `(不定时更新)`
-
-> 阿里云通用云产品1888优惠券 ：[点我领取](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=brki8iof)&nbsp;&nbsp;&nbsp;&nbsp;腾讯云通用云产品2860优惠券 ：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;`(仅限新用户)`
-
-> 阿里云Hi拼购 限量爆款 低至199元/年 [点我进入](https://www.aliyun.com/acts/hi-group-buying?userCode=brki8iof)&nbsp;&nbsp;`(仅限新用户)`
-
-## 内置功能
-
-1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3.  岗位管理：配置系统用户所属担任职务。
-4.  菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-5.  角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-6.  字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7.  参数管理：对系统动态配置常用参数。
-8.  通知公告：系统通知公告信息发布维护。
-9.  操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql)支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 在线构建器：拖动表单元素生成相应的HTML代码。
-17. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+1.  调度管理：新建调度流程，配置流程参数，配置流程任务等等。
+2.  SSH管理 ：调度任务支持远程调用SSH，配置SSH后可在调度任务流程中选择对应的SSH连接。
+3.  数据库连接：调度支持直接操作数据库，配置数据库连接后可在调度任务中执行sql等操作。
+4.  调度日志：可查看每个调度组的执行情况，与每个组中每个任务的执行情况。
+12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志，本调度已经可以通过若依的定时任务去进行定时调用。
 ## 在线体验
-> admin/admin123  
-> 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
-
-演示地址：http://ruoyi.vip  
-
-文档地址：http://doc.ruoyi.vip
+> 自己下载启动去~~~
 
 ## 演示图
-
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/25b5e333768d013d45a990c152dbe4d9d6e.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/e29fd81b2d43b517f99535564af41f9d1d5.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/629f1510fb6205f773c8c284863406b694f.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/9124eda87df0e72427cd63f458b813e3363.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/438c59467afd0097cfbe9c89db932661687.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/72a015041db6843aca7f7b273688cb346f8.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/ecb5f1c9929f1933f733f796749b2df73d9.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/e4283d500eb10e8dd8701e7742f7facb065.jpg"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/2531dbf419a1b114e1177f8d2a120b8a9c3.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/8b740a42dddc1e5a8a150d97c5060df258b.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/00e642dc3515919b3760968cc496a12a849.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/f72d28a3e60413a4e1b5c7c2f45f962fd65.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/19222e495869a2a99fc31c5d2bd4539e1e7.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/264d25176f4e22b4b38e95fe6ce73775299.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/d85fbb59be27fb33f68bdbb6e8bc967c97b.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/bb902d2c54bad02a052e9a05e5f22a93df1.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/30cda883bb9a7f74f1454314e64f949942d.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/deebaaa8d6b14a419ed5911f49e3f222a6f.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/bed2b98a44e7ae820c2885329e711965c28.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/5f3d39a141f21f81b90536f391b8408f1fa.jpg"/></td>
-    </tr>
-</table>
+![ab1aa2de1b23575e11b83f6588d6410](https://github.com/spp12138/pingFlow/assets/25034398/4b09d5eb-f744-4528-94c6-3c4000acc2a8)
+![0b7a1ce11c030e2711e4d11ff28dda1](https://github.com/spp12138/pingFlow/assets/25034398/1d654e48-1669-45ae-9d79-1f1da9512a4b)
+![e89c6b64a9f281cbc8c4096decef095](https://github.com/spp12138/pingFlow/assets/25034398/39b594a5-82d5-4649-bc96-9bc4017814cb)
+![6820dec3cff24549eb946a26e8c2986](https://github.com/spp12138/pingFlow/assets/25034398/4a35cce4-dc9d-48e6-a2cf-c386345ddb5e)
+![d3832a6dcdb41c80d138e49cb95da09](https://github.com/spp12138/pingFlow/assets/25034398/86cdada3-969a-43bb-828b-6db1d81284f2)
+![cbaf6818eb22925232b3e8d0317c530](https://github.com/spp12138/pingFlow/assets/25034398/6918c04c-a20f-41f0-ad5c-ad3083a116cb)
+![2eb1cd81d5f72a28c639d2f9d31fa71](https://github.com/spp12138/pingFlow/assets/25034398/88b487a1-aba3-4892-8269-088811ec2de0)
+![6f630decff8f3b35c38c491086bee93](https://github.com/spp12138/pingFlow/assets/25034398/145e00dc-db11-48d4-bde9-15661ec9ecf5)
+![36e487942ccd6c9cf640f62dda2e2a7](https://github.com/spp12138/pingFlow/assets/25034398/9e6103d1-55c0-48e5-8090-ee232d65e7f5)
+![d275a253a559adade67ab7663b4bd06](https://github.com/spp12138/pingFlow/assets/25034398/0d0d6e44-1137-4123-87bd-0a30ef85e19f)
+![98c00c0b06e678b9c9783c2a779856f](https://github.com/spp12138/pingFlow/assets/25034398/6c58f97e-854a-46dd-a089-27994432dffb)
+![b9e587fc9f35e03739c8173abe9a2d1](https://github.com/spp12138/pingFlow/assets/25034398/888eec7f-2321-4dc2-aa8a-193b5b4f52df)
 
 
-## 若依交流群
-
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)](https://jq.qq.com/?_wv=1027&k=5HBAaYN)  [![加入QQ群](https://img.shields.io/badge/已满-1679294-blue.svg)](https://jq.qq.com/?_wv=1027&k=5cHeRVW)  [![加入QQ群](https://img.shields.io/badge/已满-1529866-blue.svg)](https://jq.qq.com/?_wv=1027&k=53R0L5Z)  [![加入QQ群](https://img.shields.io/badge/已满-1772718-blue.svg)](https://jq.qq.com/?_wv=1027&k=5g75dCU)  [![加入QQ群](https://img.shields.io/badge/已满-1366522-blue.svg)](https://jq.qq.com/?_wv=1027&k=58cPoHA)  [![加入QQ群](https://img.shields.io/badge/已满-1382251-blue.svg)](https://jq.qq.com/?_wv=1027&k=5Ofd4Pb)  [![加入QQ群](https://img.shields.io/badge/1145125-blue.svg)](https://jq.qq.com/?_wv=1027&k=5yugASz)  点击按钮入群。
+## 交流群
+无，不接受交流
