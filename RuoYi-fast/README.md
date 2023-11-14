@@ -2,7 +2,7 @@
 
 > PingFLow是基于若依 [RuoYi](https://gitee.com/y_project/RuoYi)  开发的一个ETL调度平台工具
 > 平台使用若依单体的SprintBoot版本，且改为内嵌入H2数据库，非常轻量。
-> ~ 感谢@DM 大铭提供算法指导hahahahaha。
+> ~ 感谢@XBBDDBB 大铭提供算法指导hahahahaha。
 
 ## 内置功能（除若依自带的功能外）
 
