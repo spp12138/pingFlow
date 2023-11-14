@@ -1,0 +1,230 @@
+<?Json version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.task.mapper.FlowTaskInfoMapper">
+    
+    <resultMap type="FlowTaskInfo" id="FlowTaskInfoResult">
+        <result property="flowId"    column="flow_id"    />
+        <result property="initNum"    column="initNum"    />
+        <result property="flowJson0"    column="flow_json_0"    />
+        <result property="flowJson1"    column="flow_json_1"    />
+        <result property="flowJson2"    column="flow_json_2"    />
+        <result property="flowJson3"    column="flow_json_3"    />
+        <result property="flowJson4"    column="flow_json_4"    />
+        <result property="flowJson5"    column="flow_json_5"    />
+        <result property="flowJson6"    column="flow_json_6"    />
+        <result property="flowJson7"    column="flow_json_7"    />
+        <result property="flowJson8"    column="flow_json_8"    />
+        <result property="flowJson9"    column="flow_json_9"    />
+        <result property="flowJson10"    column="flow_json_10"    />
+        <result property="flowJson11"    column="flow_json_11"    />
+        <result property="flowJson12"    column="flow_json_12"    />
+        <result property="flowJson13"    column="flow_json_13"    />
+        <result property="flowJson14"    column="flow_json_14"    />
+        <result property="flowJson15"    column="flow_json_15"    />
+        <result property="flowJson16"    column="flow_json_16"    />
+        <result property="flowJson17"    column="flow_json_17"    />
+        <result property="flowJson18"    column="flow_json_18"    />
+        <result property="flowJson19"    column="flow_json_19"    />
+        <result property="flowJson20"    column="flow_json_20"    />
+        <result property="flowJson21"    column="flow_json_21"    />
+        <result property="flowJson22"    column="flow_json_22"    />
+        <result property="flowJson23"    column="flow_json_23"    />
+        <result property="flowJson24"    column="flow_json_24"    />
+        <result property="flowJson25"    column="flow_json_25"    />
+        <result property="flowJson26"    column="flow_json_26"    />
+        <result property="flowJson27"    column="flow_json_27"    />
+        <result property="flowJson28"    column="flow_json_28"    />
+        <result property="flowJson29"    column="flow_json_29"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowTaskInfoVo">
+        select flow_id,initNum, flow_json_0, flow_json_1, flow_json_2, flow_json_3, flow_json_4, flow_json_5, flow_json_6, flow_json_7, flow_json_8, flow_json_9, flow_json_10, flow_json_11, flow_json_12, flow_json_13, flow_json_14, flow_json_15, flow_json_16, flow_json_17, flow_json_18, flow_json_19, flow_json_20, flow_json_21, flow_json_22, flow_json_23, flow_json_24, flow_json_25, flow_json_26, flow_json_27, flow_json_28, flow_json_29, create_by, create_time, update_by, update_time, remark from flow_task_info
+    </sql>
+
+    <select id="selectFlowTaskInfoList" parameterType="FlowTaskInfo" resultMap="FlowTaskInfoResult">
+        <include refid="selectFlowTaskInfoVo"/>
+        <where>  
+            <if test="flowId != null "> and flow_id = #{flowId}</if>
+            <if test="flowId != null "> and initNum = #{initNum}</if>
+            <if test="flowJson0 != null "> and flow_json_0 = #{flowJson0}</if>
+            <if test="flowJson1 != null "> and flow_json_1 = #{flowJson1}</if>
+            <if test="flowJson2 != null "> and flow_json_2 = #{flowJson2}</if>
+            <if test="flowJson3 != null "> and flow_json_3 = #{flowJson3}</if>
+            <if test="flowJson4 != null "> and flow_json_4 = #{flowJson4}</if>
+            <if test="flowJson5 != null "> and flow_json_5 = #{flowJson5}</if>
+            <if test="flowJson6 != null "> and flow_json_6 = #{flowJson6}</if>
+            <if test="flowJson7 != null "> and flow_json_7 = #{flowJson7}</if>
+            <if test="flowJson8 != null "> and flow_json_8 = #{flowJson8}</if>
+            <if test="flowJson9 != null "> and flow_json_9 = #{flowJson9}</if>
+            <if test="flowJson10 != null "> and flow_json_10 = #{flowJson10}</if>
+            <if test="flowJson11 != null "> and flow_json_11 = #{flowJson11}</if>
+            <if test="flowJson12 != null "> and flow_json_12 = #{flowJson12}</if>
+            <if test="flowJson13 != null "> and flow_json_13 = #{flowJson13}</if>
+            <if test="flowJson14 != null "> and flow_json_14 = #{flowJson14}</if>
+            <if test="flowJson15 != null "> and flow_json_15 = #{flowJson15}</if>
+            <if test="flowJson16 != null "> and flow_json_16 = #{flowJson16}</if>
+            <if test="flowJson17 != null "> and flow_json_17 = #{flowJson17}</if>
+            <if test="flowJson18 != null "> and flow_json_18 = #{flowJson18}</if>
+            <if test="flowJson19 != null "> and flow_json_19 = #{flowJson19}</if>
+            <if test="flowJson20 != null "> and flow_json_20 = #{flowJson20}</if>
+            <if test="flowJson21 != null "> and flow_json_21 = #{flowJson21}</if>
+            <if test="flowJson22 != null "> and flow_json_22 = #{flowJson22}</if>
+            <if test="flowJson23 != null "> and flow_json_23 = #{flowJson23}</if>
+            <if test="flowJson24 != null "> and flow_json_24 = #{flowJson24}</if>
+            <if test="flowJson25 != null "> and flow_json_25 = #{flowJson25}</if>
+            <if test="flowJson26 != null "> and flow_json_26 = #{flowJson26}</if>
+            <if test="flowJson27 != null "> and flow_json_27 = #{flowJson27}</if>
+            <if test="flowJson28 != null "> and flow_json_28 = #{flowJson28}</if>
+            <if test="flowJson29 != null "> and flow_json_29 = #{flowJson29}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowTaskInfoById" parameterType="String" resultMap="FlowTaskInfoResult">
+        <include refid="selectFlowTaskInfoVo"/>
+        where flow_id = #{flowId}
+    </select>
+        
+    <insert id="insertFlowTaskInfo" parameterType="FlowTaskInfo">
+        insert into flow_task_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null ">flow_id,</if>
+            <if test="initNum != null ">initNum,</if>
+            <if test="flowJson0 != null ">flow_json_0,</if>
+            <if test="flowJson1 != null ">flow_json_1,</if>
+            <if test="flowJson2 != null ">flow_json_2,</if>
+            <if test="flowJson3 != null ">flow_json_3,</if>
+            <if test="flowJson4 != null ">flow_json_4,</if>
+            <if test="flowJson5 != null ">flow_json_5,</if>
+            <if test="flowJson6 != null ">flow_json_6,</if>
+            <if test="flowJson7 != null ">flow_json_7,</if>
+            <if test="flowJson8 != null ">flow_json_8,</if>
+            <if test="flowJson9 != null ">flow_json_9,</if>
+            <if test="flowJson10 != null ">flow_json_10,</if>
+            <if test="flowJson11 != null ">flow_json_11,</if>
+            <if test="flowJson12 != null ">flow_json_12,</if>
+            <if test="flowJson13 != null ">flow_json_13,</if>
+            <if test="flowJson14 != null ">flow_json_14,</if>
+            <if test="flowJson15 != null ">flow_json_15,</if>
+            <if test="flowJson16 != null ">flow_json_16,</if>
+            <if test="flowJson17 != null ">flow_json_17,</if>
+            <if test="flowJson18 != null ">flow_json_18,</if>
+            <if test="flowJson19 != null ">flow_json_19,</if>
+            <if test="flowJson20 != null ">flow_json_20,</if>
+            <if test="flowJson21 != null ">flow_json_21,</if>
+            <if test="flowJson22 != null ">flow_json_22,</if>
+            <if test="flowJson23 != null ">flow_json_23,</if>
+            <if test="flowJson24 != null ">flow_json_24,</if>
+            <if test="flowJson25 != null ">flow_json_25,</if>
+            <if test="flowJson26 != null ">flow_json_26,</if>
+            <if test="flowJson27 != null ">flow_json_27,</if>
+            <if test="flowJson28 != null ">flow_json_28,</if>
+            <if test="flowJson29 != null ">flow_json_29,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null ">#{flowId},</if>
+            <if test="initNum != null ">#{initNum},</if>
+            <if test="flowJson0 != null ">#{flowJson0},</if>
+            <if test="flowJson1 != null ">#{flowJson1},</if>
+            <if test="flowJson2 != null ">#{flowJson2},</if>
+            <if test="flowJson3 != null ">#{flowJson3},</if>
+            <if test="flowJson4 != null ">#{flowJson4},</if>
+            <if test="flowJson5 != null ">#{flowJson5},</if>
+            <if test="flowJson6 != null ">#{flowJson6},</if>
+            <if test="flowJson7 != null ">#{flowJson7},</if>
+            <if test="flowJson8 != null ">#{flowJson8},</if>
+            <if test="flowJson9 != null ">#{flowJson9},</if>
+            <if test="flowJson10 != null ">#{flowJson10},</if>
+            <if test="flowJson11 != null ">#{flowJson11},</if>
+            <if test="flowJson12 != null ">#{flowJson12},</if>
+            <if test="flowJson13 != null ">#{flowJson13},</if>
+            <if test="flowJson14 != null ">#{flowJson14},</if>
+            <if test="flowJson15 != null ">#{flowJson15},</if>
+            <if test="flowJson16 != null ">#{flowJson16},</if>
+            <if test="flowJson17 != null ">#{flowJson17},</if>
+            <if test="flowJson18 != null ">#{flowJson18},</if>
+            <if test="flowJson19 != null ">#{flowJson19},</if>
+            <if test="flowJson20 != null ">#{flowJson20},</if>
+            <if test="flowJson21 != null ">#{flowJson21},</if>
+            <if test="flowJson22 != null ">#{flowJson22},</if>
+            <if test="flowJson23 != null ">#{flowJson23},</if>
+            <if test="flowJson24 != null ">#{flowJson24},</if>
+            <if test="flowJson25 != null ">#{flowJson25},</if>
+            <if test="flowJson26 != null ">#{flowJson26},</if>
+            <if test="flowJson27 != null ">#{flowJson27},</if>
+            <if test="flowJson28 != null ">#{flowJson28},</if>
+            <if test="flowJson29 != null ">#{flowJson29},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowTaskInfo" parameterType="FlowTaskInfo">
+        update flow_task_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="initNum != null ">flow_json_0 = #{initNum},</if>
+            <if test="flowJson0 != null ">flow_json_0 = #{flowJson0},</if>
+            <if test="flowJson1 != null ">flow_json_1 = #{flowJson1},</if>
+            <if test="flowJson2 != null ">flow_json_2 = #{flowJson2},</if>
+            <if test="flowJson3 != null ">flow_json_3 = #{flowJson3},</if>
+            <if test="flowJson4 != null ">flow_json_4 = #{flowJson4},</if>
+            <if test="flowJson5 != null ">flow_json_5 = #{flowJson5},</if>
+            <if test="flowJson6 != null ">flow_json_6 = #{flowJson6},</if>
+            <if test="flowJson7 != null ">flow_json_7 = #{flowJson7},</if>
+            <if test="flowJson8 != null ">flow_json_8 = #{flowJson8},</if>
+            <if test="flowJson9 != null ">flow_json_9 = #{flowJson9},</if>
+            <if test="flowJson10 != null ">flow_json_10 = #{flowJson10},</if>
+            <if test="flowJson11 != null ">flow_json_11 = #{flowJson11},</if>
+            <if test="flowJson12 != null ">flow_json_12 = #{flowJson12},</if>
+            <if test="flowJson13 != null ">flow_json_13 = #{flowJson13},</if>
+            <if test="flowJson14 != null ">flow_json_14 = #{flowJson14},</if>
+            <if test="flowJson15 != null ">flow_json_15 = #{flowJson15},</if>
+            <if test="flowJson16 != null ">flow_json_16 = #{flowJson16},</if>
+            <if test="flowJson17 != null ">flow_json_17 = #{flowJson17},</if>
+            <if test="flowJson18 != null ">flow_json_18 = #{flowJson18},</if>
+            <if test="flowJson19 != null ">flow_json_19 = #{flowJson19},</if>
+            <if test="flowJson20 != null ">flow_json_20 = #{flowJson20},</if>
+            <if test="flowJson21 != null ">flow_json_21 = #{flowJson21},</if>
+            <if test="flowJson22 != null ">flow_json_22 = #{flowJson22},</if>
+            <if test="flowJson23 != null ">flow_json_23 = #{flowJson23},</if>
+            <if test="flowJson24 != null ">flow_json_24 = #{flowJson24},</if>
+            <if test="flowJson25 != null ">flow_json_25 = #{flowJson25},</if>
+            <if test="flowJson26 != null ">flow_json_26 = #{flowJson26},</if>
+            <if test="flowJson27 != null ">flow_json_27 = #{flowJson27},</if>
+            <if test="flowJson28 != null ">flow_json_28 = #{flowJson28},</if>
+            <if test="flowJson29 != null ">flow_json_29 = #{flowJson29},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where flow_id = #{flowId}
+    </update>
+
+    <delete id="deleteFlowTaskInfoById" parameterType="String">
+        delete from flow_task_info where flow_id = #{flowId}
+    </delete>
+
+    <delete id="deleteFlowTaskInfoByIds" parameterType="String">
+        delete from flow_task_info where flow_id in 
+        <foreach item="flowId" collection="array" open="(" separator="," close=")">
+            #{flowId}
+        </foreach>
+    </delete>
+    
+</mapper>

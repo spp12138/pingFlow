@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.subTask.mapper.FlowTaskSubInfoMapper">
+    
+    <resultMap type="FlowTaskSubInfo" id="FlowTaskSubInfoResult">
+        <result property="flowId"    column="flow_id"    />
+        <result property="subTaskId"    column="sub_task_id"    />
+        <result property="subTaskName"    column="sub_task_name"    />
+        <result property="subTaskType"    column="sub_task_type"    />
+        <result property="subTaskModel"    column="sub_task_model"    />
+        <result property="subJdbc"    column="sub_task_jdbc_id"    />
+        <result property="subSsh"    column="sub_task_ssh_id"    />
+        <result property="subTaskLeftR"    column="sub_task_left_r"    />
+        <result property="subTaskTopR"    column="sub_task_top_r"    />
+        <result property="subTaskWidth"    column="sub_task_width"    />
+        <result property="subTaskHeight"    column="sub_task_height"    />
+        <result property="subTaskFrom"    column="sub_task_from"    />
+        <result property="subTaskTo"    column="sub_task_to"    />
+        <result property="exeStr0"    column="exe_str_0"    />
+        <result property="exeStr1"    column="exe_str_1"    />
+        <result property="exeStr2"    column="exe_str_2"    />
+        <result property="exeStr3"    column="exe_str_3"    />
+        <result property="exeStr4"    column="exe_str_4"    />
+        <result property="exeStr5"    column="exe_str_5"    />
+        <result property="exeStr6"    column="exe_str_6"    />
+        <result property="exeStr7"    column="exe_str_7"    />
+        <result property="exeStr8"    column="exe_str_8"    />
+        <result property="exeStr9"    column="exe_str_9"    />
+        <result property="exeStr10"    column="exe_str_10"    />
+        <result property="exeStr11"    column="exe_str_11"    />
+        <result property="exeStr12"    column="exe_str_12"    />
+        <result property="exeStr13"    column="exe_str_13"    />
+        <result property="exeStr14"    column="exe_str_14"    />
+        <result property="exeStr15"    column="exe_str_15"    />
+        <result property="exeStr16"    column="exe_str_16"    />
+        <result property="exeStr17"    column="exe_str_17"    />
+        <result property="exeStr18"    column="exe_str_18"    />
+        <result property="exeStr19"    column="exe_str_19"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowTaskSubInfoVo">
+        select flow_id, sub_task_id, sub_task_name, sub_task_type, sub_task_model,sub_task_jdbc_id,sub_task_ssh_id, sub_task_left_r, sub_task_top_r, sub_task_width, sub_task_height, sub_task_from, sub_task_to, exe_str_0, exe_str_1, exe_str_2, exe_str_3, exe_str_4, exe_str_5, exe_str_6, exe_str_7, exe_str_8, exe_str_9, exe_str_10, exe_str_11, exe_str_12, exe_str_13, exe_str_14, exe_str_15, exe_str_16, exe_str_17, exe_str_18, exe_str_19, create_by, create_time, update_by, update_time, remark from flow_task_sub_info
+    </sql>
+
+    <select id="selectFlowTaskSubInfoList" parameterType="FlowTaskSubInfo" resultMap="FlowTaskSubInfoResult">
+        <include refid="selectFlowTaskSubInfoVo"/>
+        <where>  
+            <if test="flowId != null "> and flow_id = #{flowId}</if>
+            <if test="subTaskId != null "> and sub_task_id = #{subTaskId}</if>
+            <if test="subTaskName != null "> and sub_task_name like concat('%', #{subTaskName}, '%')</if>
+            <if test="subTaskType != null "> and sub_task_type = #{subTaskType}</if>
+            <if test="subTaskModel != null "> and sub_task_model = #{subTaskModel}</if>
+            <if test="subJdbc != null "> and sub_task_jdbc_id = #{subJdbc}</if>
+            <if test="subSsh != null "> and sub_task_ssh_id = #{subSsh}</if>
+            <if test="subTaskLeftR != null "> and sub_task_left_r = #{subTaskLeftR}</if>
+            <if test="subTaskTopR != null "> and sub_task_top_r = #{subTaskTopR}</if>
+            <if test="subTaskWidth != null "> and sub_task_width = #{subTaskWidth}</if>
+            <if test="subTaskHeight != null "> and sub_task_height = #{subTaskHeight}</if>
+            <if test="subTaskFrom != null "> and sub_task_from = #{subTaskFrom}</if>
+            <if test="subTaskTo != null "> and sub_task_to = #{subTaskTo}</if>
+            <if test="exeStr0 != null "> and exe_str_0 = #{exeStr0}</if>
+            <if test="exeStr1 != null "> and exe_str_1 = #{exeStr1}</if>
+            <if test="exeStr2 != null "> and exe_str_2 = #{exeStr2}</if>
+            <if test="exeStr3 != null "> and exe_str_3 = #{exeStr3}</if>
+            <if test="exeStr4 != null "> and exe_str_4 = #{exeStr4}</if>
+            <if test="exeStr5 != null "> and exe_str_5 = #{exeStr5}</if>
+            <if test="exeStr6 != null "> and exe_str_6 = #{exeStr6}</if>
+            <if test="exeStr7 != null "> and exe_str_7 = #{exeStr7}</if>
+            <if test="exeStr8 != null "> and exe_str_8 = #{exeStr8}</if>
+            <if test="exeStr9 != null "> and exe_str_9 = #{exeStr9}</if>
+            <if test="exeStr10 != null "> and exe_str_10 = #{exeStr10}</if>
+            <if test="exeStr11 != null "> and exe_str_11 = #{exeStr11}</if>
+            <if test="exeStr12 != null "> and exe_str_12 = #{exeStr12}</if>
+            <if test="exeStr13 != null "> and exe_str_13 = #{exeStr13}</if>
+            <if test="exeStr14 != null "> and exe_str_14 = #{exeStr14}</if>
+            <if test="exeStr15 != null "> and exe_str_15 = #{exeStr15}</if>
+            <if test="exeStr16 != null "> and exe_str_16 = #{exeStr16}</if>
+            <if test="exeStr17 != null "> and exe_str_17 = #{exeStr17}</if>
+            <if test="exeStr18 != null "> and exe_str_18 = #{exeStr18}</if>
+            <if test="exeStr19 != null "> and exe_str_19 = #{exeStr19}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowTaskSubInfoById" parameterType="String" resultMap="FlowTaskSubInfoResult">
+        <include refid="selectFlowTaskSubInfoVo"/>
+        where flow_id = #{flowId}
+    </select>
+        
+    <insert id="insertFlowTaskSubInfo" parameterType="FlowTaskSubInfo">
+        insert into flow_task_sub_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null ">flow_id,</if>
+            <if test="subTaskId != null ">sub_task_id,</if>
+            <if test="subTaskName != null ">sub_task_name,</if>
+            <if test="subTaskType != null ">sub_task_type,</if>
+            <if test="subTaskModel != null ">sub_task_model,</if>
+            <if test="subJdbc != null ">sub_task_jdbc_id,</if>
+            <if test="subSsh != null ">sub_task_ssh_id,</if>
+            <if test="subTaskLeftR != null ">sub_task_left_r,</if>
+            <if test="subTaskTopR != null ">sub_task_top_r,</if>
+            <if test="subTaskWidth != null ">sub_task_width,</if>
+            <if test="subTaskHeight != null ">sub_task_height,</if>
+            <if test="subTaskFrom != null ">sub_task_from,</if>
+            <if test="subTaskTo != null ">sub_task_to,</if>
+            <if test="exeStr0 != null ">exe_str_0,</if>
+            <if test="exeStr1 != null ">exe_str_1,</if>
+            <if test="exeStr2 != null ">exe_str_2,</if>
+            <if test="exeStr3 != null ">exe_str_3,</if>
+            <if test="exeStr4 != null ">exe_str_4,</if>
+            <if test="exeStr5 != null ">exe_str_5,</if>
+            <if test="exeStr6 != null ">exe_str_6,</if>
+            <if test="exeStr7 != null ">exe_str_7,</if>
+            <if test="exeStr8 != null ">exe_str_8,</if>
+            <if test="exeStr9 != null ">exe_str_9,</if>
+            <if test="exeStr10 != null ">exe_str_10,</if>
+            <if test="exeStr11 != null ">exe_str_11,</if>
+            <if test="exeStr12 != null ">exe_str_12,</if>
+            <if test="exeStr13 != null ">exe_str_13,</if>
+            <if test="exeStr14 != null ">exe_str_14,</if>
+            <if test="exeStr15 != null ">exe_str_15,</if>
+            <if test="exeStr16 != null ">exe_str_16,</if>
+            <if test="exeStr17 != null ">exe_str_17,</if>
+            <if test="exeStr18 != null ">exe_str_18,</if>
+            <if test="exeStr19 != null ">exe_str_19,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null ">#{flowId},</if>
+            <if test="subTaskId != null ">#{subTaskId},</if>
+            <if test="subTaskName != null ">#{subTaskName},</if>
+            <if test="subTaskType != null ">#{subTaskType},</if>
+            <if test="subTaskModel != null ">#{subTaskModel},</if>
+            <if test="subJdbc != null ">#{subJdbc},</if>
+            <if test="subSsh != null ">#{subSsh},</if>
+            <if test="subTaskLeftR != null ">#{subTaskLeftR},</if>
+            <if test="subTaskTopR != null ">#{subTaskTopR},</if>
+            <if test="subTaskWidth != null ">#{subTaskWidth},</if>
+            <if test="subTaskHeight != null ">#{subTaskHeight},</if>
+            <if test="subTaskFrom != null ">#{subTaskFrom},</if>
+            <if test="subTaskTo != null ">#{subTaskTo},</if>
+            <if test="exeStr0 != null ">#{exeStr0},</if>
+            <if test="exeStr1 != null ">#{exeStr1},</if>
+            <if test="exeStr2 != null ">#{exeStr2},</if>
+            <if test="exeStr3 != null ">#{exeStr3},</if>
+            <if test="exeStr4 != null ">#{exeStr4},</if>
+            <if test="exeStr5 != null ">#{exeStr5},</if>
+            <if test="exeStr6 != null ">#{exeStr6},</if>
+            <if test="exeStr7 != null ">#{exeStr7},</if>
+            <if test="exeStr8 != null ">#{exeStr8},</if>
+            <if test="exeStr9 != null ">#{exeStr9},</if>
+            <if test="exeStr10 != null ">#{exeStr10},</if>
+            <if test="exeStr11 != null ">#{exeStr11},</if>
+            <if test="exeStr12 != null ">#{exeStr12},</if>
+            <if test="exeStr13 != null ">#{exeStr13},</if>
+            <if test="exeStr14 != null ">#{exeStr14},</if>
+            <if test="exeStr15 != null ">#{exeStr15},</if>
+            <if test="exeStr16 != null ">#{exeStr16},</if>
+            <if test="exeStr17 != null ">#{exeStr17},</if>
+            <if test="exeStr18 != null ">#{exeStr18},</if>
+            <if test="exeStr19 != null ">#{exeStr19},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowTaskSubInfo" parameterType="FlowTaskSubInfo">
+        update flow_task_sub_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subTaskId != null ">sub_task_id = #{subTaskId},</if>
+            <if test="subTaskName != null ">sub_task_name = #{subTaskName},</if>
+            <if test="subTaskType != null ">sub_task_type = #{subTaskType},</if>
+            <if test="subTaskModel != null ">sub_task_model = #{subTaskModel},</if>
+            <if test="subJdbc != null ">sub_task_jdbc_id = #{subJdbc},</if>
+            <if test="subSsh != null ">sub_task_ssh_id = #{subSsh},</if>
+            <if test="subTaskLeftR != null ">sub_task_left_r = #{subTaskLeftR},</if>
+            <if test="subTaskTopR != null ">sub_task_top_r = #{subTaskTopR},</if>
+            <if test="subTaskWidth != null ">sub_task_width = #{subTaskWidth},</if>
+            <if test="subTaskHeight != null ">sub_task_height = #{subTaskHeight},</if>
+            <if test="subTaskFrom != null ">sub_task_from = #{subTaskFrom},</if>
+            <if test="subTaskTo != null ">sub_task_to = #{subTaskTo},</if>
+            <if test="exeStr0 != null ">exe_str_0 = #{exeStr0},</if>
+            <if test="exeStr1 != null ">exe_str_1 = #{exeStr1},</if>
+            <if test="exeStr2 != null ">exe_str_2 = #{exeStr2},</if>
+            <if test="exeStr3 != null ">exe_str_3 = #{exeStr3},</if>
+            <if test="exeStr4 != null ">exe_str_4 = #{exeStr4},</if>
+            <if test="exeStr5 != null ">exe_str_5 = #{exeStr5},</if>
+            <if test="exeStr6 != null ">exe_str_6 = #{exeStr6},</if>
+            <if test="exeStr7 != null ">exe_str_7 = #{exeStr7},</if>
+            <if test="exeStr8 != null ">exe_str_8 = #{exeStr8},</if>
+            <if test="exeStr9 != null ">exe_str_9 = #{exeStr9},</if>
+            <if test="exeStr10 != null ">exe_str_10 = #{exeStr10},</if>
+            <if test="exeStr11 != null ">exe_str_11 = #{exeStr11},</if>
+            <if test="exeStr12 != null ">exe_str_12 = #{exeStr12},</if>
+            <if test="exeStr13 != null ">exe_str_13 = #{exeStr13},</if>
+            <if test="exeStr14 != null ">exe_str_14 = #{exeStr14},</if>
+            <if test="exeStr15 != null ">exe_str_15 = #{exeStr15},</if>
+            <if test="exeStr16 != null ">exe_str_16 = #{exeStr16},</if>
+            <if test="exeStr17 != null ">exe_str_17 = #{exeStr17},</if>
+            <if test="exeStr18 != null ">exe_str_18 = #{exeStr18},</if>
+            <if test="exeStr19 != null ">exe_str_19 = #{exeStr19},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where flow_id = #{flowId}
+    </update>
+
+    <delete id="deleteFlowTaskSubInfoById" parameterType="String">
+        delete from flow_task_sub_info where flow_id = #{flowId}
+    </delete>
+    <delete id="deleteFlowTaskSubInfoBySubTaskId" parameterType="String">
+        delete from flow_task_sub_info where sub_task_id = #{subTaskId}
+    </delete>
+
+    <delete id="deleteFlowTaskSubInfoByIds" parameterType="String">
+        delete from flow_task_sub_info where flow_id in 
+        <foreach item="flowId" collection="array" open="(" separator="," close=")">
+            #{flowId}
+        </foreach>
+    </delete>
+    
+</mapper>

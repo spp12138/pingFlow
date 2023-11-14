@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增【SSH连接管理】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-set-add">
+                <div class="form-group">
+					<label class="col-sm-3 control-label ">SSH连接名称：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" name="sshName" id="sshName" required>
+					</div>
+				</div>
+	        	<div class="form-group">
+					<label class="col-sm-3 control-label ">主机IP地址：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" name="sshHostname" id="sshHostname" required>
+					</div>
+				</div>
+	        	<div class="form-group">
+					<label class="col-sm-3 control-label ">用户名：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" name="sshUsername" id="sshUsername" required>
+					</div>
+				</div>
+	        	<div class="form-group">
+					<label class="col-sm-3 control-label ">密码：</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" name="sshPassword" id="sshPassword" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">备注：</label>
+					<div class="col-sm-8">
+						<textarea id="remark" name="remark" class="form-control"></textarea>
+					</div>
+				</div>
+	        </form>
+		    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="testConnDb()">测试连接</button>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "flow/sshSet"
+        $("#form-set-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-set-add').serialize());
+            }
+        }
+        function testConnDb() {
+        	$.ajax({
+				cache : true,
+				type : "POST",
+				url : prefix + "/testConnSsh",
+				data : {
+					"sshName": $('#sshName').val(),
+					"sshHostname": $('#sshHostname').val(),
+					"sshUsername": $('#sshUsername').val(),
+					"sshPassword": $('#sshPassword').val()
+				},
+// 				async : false,
+				error : function(request) {
+					console.log(request);
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					layer.msg(data.msg); 
+				}
+			});
+        }
+    </script>
+</body>
+</html>

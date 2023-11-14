@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.chart.area.mapper.FlowTaskAreaMapper">
+    
+    <resultMap type="FlowTaskArea" id="FlowTaskAreaResult">
+        <result property="flowid"    column="flowid"    />
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="left"    column="left"    />
+        <result property="top"    column="top"    />
+        <result property="color"    column="color"    />
+        <result property="width"    column="width"    />
+        <result property="height"    column="height"    />
+        <result property="alt"    column="alt"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowTaskAreaVo">
+        select flowid, id, name, left, top, color, width, height, alt, create_by, create_time, update_by, update_time, remark from flow_task_area
+    </sql>
+
+    <select id="selectFlowTaskAreaList" parameterType="FlowTaskArea" resultMap="FlowTaskAreaResult">
+        <include refid="selectFlowTaskAreaVo"/>
+        <where>  
+            <if test="flowid != null "> and flowid = #{flowid}</if>
+            <if test="name != null "> and name like concat('%', #{name}, '%')</if>
+            <if test="left != null "> and left = #{left}</if>
+            <if test="top != null "> and top = #{top}</if>
+            <if test="color != null "> and color = #{color}</if>
+            <if test="width != null "> and width = #{width}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="alt != null "> and alt = #{alt}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowTaskAreaById" parameterType="String" resultMap="FlowTaskAreaResult">
+        <include refid="selectFlowTaskAreaVo"/>
+        where flowid = #{flowid}
+    </select>
+        
+    <insert id="insertFlowTaskArea" parameterType="FlowTaskArea">
+        insert into flow_task_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowid != null ">flowid,</if>
+            <if test="id != null ">id,</if>
+            <if test="name != null ">name,</if>
+            <if test="left != null ">left,</if>
+            <if test="top != null ">top,</if>
+            <if test="color != null ">color,</if>
+            <if test="width != null ">width,</if>
+            <if test="height != null ">height,</if>
+            <if test="alt != null ">alt,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowid != null ">#{flowid},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="name != null ">#{name},</if>
+            <if test="left != null ">#{left},</if>
+            <if test="top != null ">#{top},</if>
+            <if test="color != null ">#{color},</if>
+            <if test="width != null ">#{width},</if>
+            <if test="height != null ">#{height},</if>
+            <if test="alt != null ">#{alt},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowTaskArea" parameterType="FlowTaskArea">
+        update flow_task_area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null ">id = #{id},</if>
+            <if test="name != null ">name = #{name},</if>
+            <if test="left != null ">left = #{left},</if>
+            <if test="top != null ">top = #{top},</if>
+            <if test="color != null ">color = #{color},</if>
+            <if test="width != null ">width = #{width},</if>
+            <if test="height != null ">height = #{height},</if>
+            <if test="alt != null ">alt = #{alt},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where flowid = #{flowid}
+    </update>
+
+    <delete id="deleteFlowTaskAreaById" parameterType="String">
+        delete from flow_task_area where flowid = #{flowid}
+    </delete>
+
+    <delete id="deleteFlowTaskAreaByIds" parameterType="String">
+        delete from flow_task_area where flowid in 
+        <foreach item="flowid" collection="array" open="(" separator="," close=")">
+            #{flowid}
+        </foreach>
+    </delete>
+    
+</mapper>

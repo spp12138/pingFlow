@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.log.mapper.FlowLogMapper">
+    
+    <resultMap type="FlowLog" id="FlowLogResult">
+        <result property="id"    column="id"    />
+        <result property="flowSlId"    column="flow_sl_id"    />
+        <result property="flowName"    column="flow_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="progress"    column="progress"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="stauts"    column="stauts"    />
+        <result property="param"    column="param"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowLogVo">
+    	select * from (
+	        SELECT  t.ID, 
+	        		t.FLOW_SL_ID,
+	        		t.FLOW_NAME, 
+	        		t.START_TIME, 
+	        		t.END_TIME, 
+	        		t.STAUTS, 
+	        		tt.IS_OK,
+	        		tt.IS_WAIT,
+	        		tt.TOTAL,
+	        		tt.IS_OK||'/'||tt.total AS progress,
+	        		t.PARAM, 
+	        		t.CREATE_BY, 
+	        		t.CREATE_TIME, 
+	        		t.UPDATE_BY, 
+	        		t.UPDATE_TIME,
+	        		t.REMARK 
+	        FROM FLOW_LOG T
+	        LEFT JOIN (
+	        	SELECT  
+					a.FLOW_SL_ID,
+					SUM(CASE WHEN a.STAUTS = '2' THEN  1 ELSE 0 END) IS_OK ,
+					SUM(CASE WHEN a.STAUTS &lt;> '2' THEN  1 ELSE  0 END) IS_WAIT ,
+					COUNT(*) TOTAL
+				FROM FLOW_LOG_DETAIL a
+				GROUP  BY  a.FLOW_SL_ID        
+	        ) TT ON T.FLOW_SL_ID = TT.FLOW_SL_ID  
+		)	        
+    </sql>
+
+    <select id="selectFlowLogList" parameterType="FlowLog" resultMap="FlowLogResult">
+        <include refid="selectFlowLogVo"/>
+        <where>  
+            <if test="flowSlId != null "> and flow_sl_id = #{flowSlId}</if>
+            <if test="flowName != null "> and flow_name = #{flowName}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="stauts != null "> and stauts = #{stauts}</if>
+            <if test="param != null "> and param = #{param}</if>
+            <if test="remark != null "> and remark = #{remark}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowLogById" parameterType="String" resultMap="FlowLogResult">
+        <include refid="selectFlowLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFlowLog" parameterType="FlowLog">
+        insert into flow_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="flowSlId != null ">flow_sl_id,</if>
+            <if test="flowName != null ">flow_name,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="stauts != null ">stauts,</if>
+            <if test="param != null ">param,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="flowSlId != null ">#{flowSlId},</if>
+            <if test="flowName != null ">#{flowName},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="stauts != null ">#{stauts},</if>
+            <if test="param != null ">#{param},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowLog" parameterType="FlowLog">
+        update flow_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowSlId != null ">flow_sl_id = #{flowSlId},</if>
+            <if test="flowName != null ">flow_name = #{flowName},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="stauts != null ">stauts = #{stauts},</if>
+            <if test="param != null ">param = #{param},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFlowLogById" parameterType="String">
+        delete from flow_log where id = #{id}
+    </delete>
+
+    <delete id="deleteFlowLogByIds" parameterType="String">
+        delete from flow_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

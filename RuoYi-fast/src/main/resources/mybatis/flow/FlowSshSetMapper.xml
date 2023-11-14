@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.sshSet.mapper.FlowSshSetMapper">
+    
+    <resultMap type="FlowSshSet" id="FlowSshSetResult">
+        <result property="id"    column="id"    />
+        <result property="sshName"    column="ssh_name"    />
+        <result property="sshHostname"    column="ssh_hostname"    />
+        <result property="sshUsername"    column="ssh_username"    />
+        <result property="sshPassword"    column="ssh_password"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowSshSetVo">
+        select id, ssh_name, ssh_hostname, ssh_username, ssh_password, create_by, create_time, update_by, update_time, remark from flow_ssh_set
+    </sql>
+
+    <select id="selectFlowSshSetList" parameterType="FlowSshSet" resultMap="FlowSshSetResult">
+        <include refid="selectFlowSshSetVo"/>
+        <where>  
+            <if test="sshName != null "> and ssh_name like concat('%', #{sshName}, '%')</if>
+            <if test="sshHostname != null "> and ssh_hostname like concat('%', #{sshHostname}, '%')</if>
+            <if test="sshUsername != null "> and ssh_username like concat('%', #{sshUsername}, '%')</if>
+            <if test="sshPassword != null "> and ssh_password = #{sshPassword}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowSshSetById" parameterType="String" resultMap="FlowSshSetResult">
+        <include refid="selectFlowSshSetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFlowSshSet" parameterType="FlowSshSet">
+        insert into flow_ssh_set
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="sshName != null ">ssh_name,</if>
+            <if test="sshHostname != null ">ssh_hostname,</if>
+            <if test="sshUsername != null ">ssh_username,</if>
+            <if test="sshPassword != null ">ssh_password,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="sshName != null ">#{sshName},</if>
+            <if test="sshHostname != null ">#{sshHostname},</if>
+            <if test="sshUsername != null ">#{sshUsername},</if>
+            <if test="sshPassword != null ">#{sshPassword},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowSshSet" parameterType="FlowSshSet">
+        update flow_ssh_set
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sshName != null ">ssh_name = #{sshName},</if>
+            <if test="sshHostname != null ">ssh_hostname = #{sshHostname},</if>
+            <if test="sshUsername != null ">ssh_username = #{sshUsername},</if>
+            <if test="sshPassword != null ">ssh_password = #{sshPassword},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFlowSshSetById" parameterType="String">
+        delete from flow_ssh_set where id = #{id}
+    </delete>
+
+    <delete id="deleteFlowSshSetByIds" parameterType="String">
+        delete from flow_ssh_set where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

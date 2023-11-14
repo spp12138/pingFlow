@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.zh.zh.mapper.Test002Mapper">
+    
+    <resultMap type="Test001" id="Test002Result">
+        <result property="id"    column="id"    />
+        <result property="date"    column="date"    />
+        <result property="gw"    column="gw"    />
+        <result property="ls"    column="ls"    />
+        <result property="xy"    column="xy"    />
+        <result property="sfzh"    column="sfzh"    />
+    </resultMap>
+
+    <select id="selectTest002List" parameterType="Test001" resultMap="Test002Result">
+        select 
+			tt.dict_label gw,
+			count(xy) xy ,
+			sum(NVL(sfzh,0)) sfzh 
+		from test_001 t
+		left join SYS_DICT_DATA tt on tt.dict_type = 'test_gwmd' and t.gw= tt.dict_value
+        <where>  
+            <if test="date_start != null "> and t.date &gt;= #{date_start}</if>
+            <if test="date_end != null "> and t.date &lt;= #{date_end}</if>
+            <if test="gw != null  and gw != ''"> and t.gw like concat('%', #{gw}, '%')</if>
+            <if test="ls != null  and ls != ''"> and t.ls like concat('%', #{ls}, '%')</if>
+        </where>
+        group by tt.dict_label
+    </select>
+    
+    <select id="selectTest002ById" parameterType="String" resultMap="Test002Result">
+        select 
+			tt.dict_label gw,
+			count(xy) xy ,
+			sum(NVL(sfzh,0)) sfzh 
+		from test_001 t
+		left join SYS_DICT_DATA tt on tt.dict_type = 'test_gwmd' and t.gw= tt.dict_value
+        where t.id = #{id}
+    </select>
+    
+</mapper>

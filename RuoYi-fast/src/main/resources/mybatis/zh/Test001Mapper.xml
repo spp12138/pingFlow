@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.zh.zh.mapper.Test001Mapper">
+    
+    <resultMap type="Test001" id="Test001Result">
+        <result property="id"    column="id"    />
+        <result property="date"    column="date"    />
+        <result property="gw"    column="gw"    />
+        <result property="ls"    column="ls"    />
+        <result property="xy"    column="xy"    />
+        <result property="sfzh"    column="sfzh"    />
+    </resultMap>
+
+    <sql id="selectTest001Vo">
+        select id, date, gw, ls, xy, sfzh,czy from test_001 t
+    </sql>
+
+    <select id="selectTest001List" parameterType="Test001" resultMap="Test001Result">
+        <include refid="selectTest001Vo"/>
+        <where>  
+            <if test="date_start != null "> and t.date &gt;= #{date_start}</if>
+            <if test="date_end != null "> and t.date &lt;= #{date_end}</if>
+            <if test="gw != null  and gw != ''"> and gw like concat('%', #{gw}, '%')</if>
+            <if test="ls != null  and ls != ''"> and ls like concat('%', #{ls}, '%')</if>
+            <if test="xy != null  and xy != ''"> and xy like concat('%', #{xy}, '%')</if>
+            <if test="sfzh != null  and sfzh != ''"> and sfzh = #{sfzh}</if>
+        </where>
+    </select>
+    
+    <select id="selectTest001ById" parameterType="String" resultMap="Test001Result">
+        <include refid="selectTest001Vo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTest001" parameterType="Test001">
+        insert into test_001
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="date != null ">date,</if>
+            <if test="gw != null  and gw != ''">gw,</if>
+            <if test="ls != null  and ls != ''">ls,</if>
+            <if test="xy != null  and xy != ''">xy,</if>
+            <if test="sfzh != null  and sfzh != ''">sfzh,</if>
+            <if test="czy != null  and czy != ''">czy,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="date != null ">#{date},</if>
+            <if test="gw != null  and gw != ''">#{gw},</if>
+            <if test="ls != null  and ls != ''">#{ls},</if>
+            <if test="xy != null  and xy != ''">#{xy},</if>
+            <if test="sfzh != null  and sfzh != ''">#{sfzh},</if>
+            <if test="czy != null  and czy != ''">#{czy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTest001" parameterType="Test001">
+        update test_001
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="date != null ">date = #{date},</if>
+            <if test="gw != null  and gw != ''">gw = #{gw},</if>
+            <if test="ls != null  and ls != ''">ls = #{ls},</if>
+            <if test="xy != null  and xy != ''">xy = #{xy},</if>
+            <if test="sfzh != null  and sfzh != ''">sfzh = #{sfzh},</if>
+            <if test="czy != null  and czy != ''">czy = #{czy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTest001ById" parameterType="String">
+        delete from test_001 where id = #{id}
+    </delete>
+
+    <delete id="deleteTest001ByIds" parameterType="String">
+        delete from test_001 where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

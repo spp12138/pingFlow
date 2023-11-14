@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增数据库连接管理')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-set-add">
+        	<div class="form-group">
+				<label class="col-sm-3 control-label ">连接名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="jdbcName" id="jdbcName" required>
+				</div>
+			</div>
+        	<div class="form-group">
+				<label class="col-sm-3 control-label ">JDBC驱动类：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="jdbcDriver" id="jdbcDriver" required>
+				</div>
+			</div>
+        	<div class="form-group">
+				<label class="col-sm-3 control-label ">数据库连接串：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="jdbcUrl" id="jdbcUrl" required>
+				</div>
+			</div>
+        	<div class="form-group">
+				<label class="col-sm-3 control-label ">数据库用户名：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="jdbcUsername" id="jdbcUsername" required>
+				</div>
+			</div>
+        	<div class="form-group">
+				<label class="col-sm-3 control-label ">数据库密码：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="jdbcPassword" id="jdbcPassword" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea id="remark" name="remark" class="form-control"></textarea>
+				</div>
+			</div>
+        </form>
+	    <button type="button" class="btn btn-primary btn-lg btn-block" onclick="testConnDb()">测试连接</button>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "flow/jdbcSet"
+        $("#form-set-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-set-add').serialize());
+            }
+        }
+        function testConnDb() {
+        	$.ajax({
+				cache : true,
+				type : "POST",
+				url : ctx + "flow/jdbcSet/testConnDb",
+				data : {
+					"jdbcDriver": $('#jdbcDriver').val(),
+					"jdbcUrl": $('#jdbcUrl').val(),
+					"jdbcUsername": $('#jdbcUsername').val(),
+					"jdbcPassword": $('#jdbcPassword').val()
+				},
+// 				async : false,
+				error : function(request) {
+					console.log(request);
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					layer.msg(data.msg); 
+				}
+			});
+        }
+    </script>
+</body>
+</html>

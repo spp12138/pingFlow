@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="流程图编辑器">
+<title>流程图编辑器</title>
+<!--[if lt IE 9]>
+<?import namespace="v" implementation="#default#VML" ?>
+<![endif]-->
+<link th:href="@{/gooflow/css/GooFlow2.css}" rel="stylesheet"/>
+<link th:href="@{/gooflow/css/default.css}" rel="stylesheet"/>
+<!--<link rel="stylesheet" type="text/css" href="codebase/GooFlow.css"/>-->
+<th:block th:include="include :: header('修改调度管理')" />
+<th:block th:include="include :: footer" />
+<style>
+
+/*div通用样式*/
+.flow_param{
+/* 	overflow: hidden; */
+	z-index: 9999;
+/* 	position: fixed; */
+	position: absolute;
+	padding:5px;
+	text-align:center;
+/* 	border-bottom-left-radius: 4px; */
+/* 	border-bottom-right-radius: 4px; */
+/* 	border-top-left-radius: 4px; */
+/* 	border-top-right-radius: 4px; */
+}
+
+
+/*右上角*/
+.right_top{
+/* 	right: 10px; */
+/* 	top: 10px; */
+}
+
+.myForm{display:block;margin:0px;padding:0px;line-height:1.5;border:#ccc 1px solid;font: 12px Arial, Helvetica, sans-serif;margin:5px 5px 0px 0px;border-radius:4px;}
+.myForm .form_title{background:#428bca;padding:4px;color:#fff;border-radius:3px 3px 0px 0px;}
+.myForm .form_content{padding:4px;background:#fff;}
+.myForm .form_content table{border:0px}
+.myForm .form_content table td{border:0px}
+.myForm .form_content table .th{text-align:right;font-weight:bold}
+.myForm .form_btn_div{text-align:center;border-top:#ccc 1px solid;background:#f5f5f5;padding:4px;border-radius:0px 0px 3px 3px;} 
+#propertyForm{float:right;width:400px}
+</style>
+<script th:src="@{/gooflow/js/child.js}"></script>
+<script th:src="@{/gooflow/js/jquery.min.js}"></script>
+<script th:src="@{/gooflow/js/GooFunc.js}"></script>
+<script th:src="@{/gooflow/js/json2.js}"></script>
+<script th:src="@{/gooflow/js/GooFlow.js}"></script>
+<script th:src="@{/gooflow/js/GooFlow_color.js}"></script>
+<script type="text/javascript">
+var property={
+	width:$(window).width(),　//浏览器时下窗口可视区域宽度 
+	height:$(window).height()-10, 　//浏览器时下窗口可视区域高度
+	toolBtns:["start round","end round","task round","node","chat","state","plug","join","fork","complex mix"],
+	haveHead:true,
+	headBtns:["new","open","save","undo","redo","reload"],//如果haveHead=true，则定义HEAD区的按钮
+	haveTool:true,
+	haveGroup:true,
+	useOperStack:true
+};
+
+var remark={
+	cursor:"选择指针",
+	direct:"结点连线",
+	start:"入口结点",
+	"end":"结束结点",
+	"task":"任务结点",
+	node:"自动结点",
+	chat:"决策结点",
+	state:"状态结点",
+	plug:"附加插件",
+	fork:"分支结点",
+	"join":"联合结点",
+	"complex mix":"复合结点",
+	group:"组织划分框编辑开关"
+};
+
+var demo;
+
+$(document).ready(function(){
+	//初始化JDBC数据
+	initJdbc();
+	//初始化ssh数据
+	initSsh();
+    var flow_id = 'flow_id_' + '[[${flow_id}]]';
+    var flowTask = '[[${flowTask}]]';
+    var flowTitle = '[[${flowTitle}]]';
+    var decodeFlowTask = html_decode(flowTask);
+    flowTask = JSON.parse(decodeFlowTask);
+
+    demo=$.createGooFlow($('#'+flow_id),property,flow_id);
+    demo.setNodeRemarks(remark);
+    console.log(JSON.stringify(flowTask));
+    demo.loadData(flowTask); 
+    demo.setTitle(flowTitle);
+    demo.onBtnSaveClick=function(){
+    	saveTask();
+	}
+
+    demo.onItemDel = function(id, type) {
+			return true;
+	}
+    demo.onItemFocus = function(id, model) {
+    		var flowId = '[[${flow_id}]]';
+			var obj;
+			$("#ele_id").val(id);
+			if (model == "line") {
+				obj = this.$lineData[id];
+			} else if (model == "node") {
+				obj = this.$nodeData[id];
+			}
+			$("#ele_name").val(obj.name);
+			$("#ele_model").val(obj.type);
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/" + "flowSubTask/list",
+				data : {
+					"flowId": flowId,
+					"subTaskId":id
+				},
+				async : false,
+				error : function(request) {
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					if(data.rows && data.rows.length > 0){
+						if(data.rows[0].exeStr) $("#ele_src").val(data.rows[0].exeStr); else $("#ele_src").val("");
+						if(data.rows[0].subJdbc) $("#ele_jdbc").val(data.rows[0].subJdbc); else $("#ele_jdbc").val("");
+						if(data.rows[0].subSsh) $("#ele_ssh").val(data.rows[0].subSsh); else $("#ele_ssh").val("");
+						
+						if(data.rows[0].subTaskType){
+							var type  = data.rows[0].subTaskType;
+							$("#ele_type").val(type);
+							if(type == 'SqlProc' || type == 'SQL' || type == 'SqlProcRes' || type == 'SqlProcNoRes' || type == 'fileLoad'){
+								$('#JDBC').show();
+							}else{
+								$('#JDBC').hide();
+								$('#ele_jdbc').val('');
+							}
+							
+							if(type == 'Linux' || type == 'LinuxLocal' || type == 'LinuxSSH'){
+								$('#SSH').show();
+							}else{
+								$('#SSH').hide();
+								$('#ele_ssh').val('');
+							}
+						}else{
+							$("#ele_type").val("");
+						}
+						
+					}else{ 
+							$("#ele_type").val("");
+							$("#ele_src").val("");
+							$("#ele_jdbc").val("");
+							$("#ele_ssh").val("");
+							$('#JDBC').hide();
+							$('#SSH').hide();
+					}
+				}
+			});
+			return true;
+		};
+		demo.onItemBlur = function(id, model) {
+			document.getElementById("propertyForm").reset();
+			return true;
+		};
+	});
+
+
+	function Export() {
+		document.getElementById("result").value = JSON.stringify(demo.exportData());
+	}
+	
+	function save(flowObj) {
+		flowObj.setName($('#ele_id').val(),$('#ele_name').val(),$('#ele_type').val());
+		var flowId = '[[${flow_id}]]';
+		var flowJson = JSON.stringify(demo.exportData());
+		var ele_id = $("#ele_id").val();
+		var ele_model = $("#ele_model").val();
+		var ele_name = $("#ele_name").val();
+		var ele_src = $("#ele_src").val();
+		var ele_type = $("#ele_type").val();
+		var ele_jdbc = $("#ele_jdbc").val();
+		var ele_ssh = $("#ele_ssh").val();
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : "/" + "flowSubTask/add",
+			data : {
+				"flowId": flowId,
+				"subTaskId": ele_id,
+				"subTaskName": ele_name,
+				"exeStr": ele_src,
+				"subTaskType": ele_type,
+				"subTaskModel": ele_model,
+				"subJdbc": ele_jdbc,
+				"subSsh": ele_ssh
+			},
+			async : false,
+			error : function(request) {
+				$.modal.alertError("系统错误");
+			},
+			success : function(data) {
+				layer.msg('保存成功'); 
+			}
+		});
+	}
+	
+	
+	function saveTask() {
+		var flowId = '[[${flow_id}]]';
+		var flowJson = JSON.stringify(demo.exportData());
+	    console.log(flowJson);
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : "/" + "flowtask/save",
+			data : {
+				"flowId": flowId,
+				"flowJson": flowJson
+			},
+			async : false,
+			error : function(request) {
+				$.modal.alertError("系统错误");
+			},
+			success : function(data) {
+				layer.msg('保存成功'); 
+			}
+		});
+	}
+	$(function() {  
+	    var oBox=null;
+	    var oBox_p=null;
+	    var disX=0;
+	    var disY=0;
+	    
+	    window.onload=function(){
+	        oBox=document.getElementById('flow_param_move');
+	        oBox_p=document.getElementById('flow_param');
+	        oBox_p.style.left = $(window).width()*0.8  + 'px';
+	        oBox_p.style.top = $(window).height()*0.05 + 'px';
+	        oBox.onmousedown=fnDown;
+	    };
+	    //鼠标按下事件
+	    function fnDown(ev){				
+	        var oEvent = ev||event;
+	        disX = oEvent.clientX - oBox_p.offsetLeft;
+	        disY = oEvent.clientY - oBox_p.offsetTop;
+	        document.onmousemove = fnMove;
+	        document.onmouseup = fnUp;
+	    }
+	    //鼠标移动事件
+	    function fnMove(ev){
+	        var oEvent=ev||event;
+	        oBox_p.style.left = oEvent.clientX - disX + 'px';
+	        oBox_p.style.top = oEvent.clientY - disY + 'px';
+	    }
+	    //鼠标抬起事件
+	    function fnUp(){
+	        document.onmousemove = null;
+	        document.onmouseup = null;
+	    }
+	});  
+	function hiddenDetail(o){
+		var type = $(o).val();
+		if(type == 'SqlProc' || type == 'SQL' || type == 'SqlProcRes' || type == 'SqlProcNoRes' || type == 'fileLoad'){
+			$('#JDBC').show();
+		}else{
+			$('#JDBC').hide();
+			$('#ele_jdbc').val('');
+		}
+		if(type == 'LinuxSSH'){
+			$('#SSH').show();
+		}else{
+			$('#SSH').hide();
+			$('#ele_ssh').val('');
+		}
+	}
+	
+	function initJdbc() {
+		$('#JDBC').hide();
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : "/" + "flow/jdbcSet/listAll",
+			async : false,
+			error : function(request) {
+				$.modal.alertError("JDBC下拉框加载失败!");
+			},
+			success : function(data) {
+				var openHtml = '<option value="#">请选择</option>';
+				for (var i = 0; i < data.length; i++) {
+					openHtml += '<option value="'+data[i].id+'">'+data[i].jdbcName+'</option>' ;
+				}
+				$('#ele_jdbc').html(openHtml);
+			}
+		});
+	}
+	function initSsh() {
+		$('#SSH').hide();
+		$.ajax({
+			cache : true,
+			type : "POST",
+			url : "/" + "flow/sshSet/listAll",
+			async : false,
+			error : function(request) {
+				$.modal.alertError("SSH下拉框加载失败!");
+			},
+			success : function(data) {
+				
+				var openHtml = '<option value="#">请选择</option>';
+				for (var i = 0; i < data.length; i++) {
+					openHtml += '<option value="'+data[i].id+'">'+data[i].sshName+'</option>' ;
+				}
+				$('#ele_ssh').html(openHtml);
+			}
+		});
+	}
+</script>
+</head>
+<body style="background: #EEEEEE">
+	<div th:id="'flow_id_' + ${flow_id}" style="margin: 5px; float: left"></div>
+	<div class=" flow_param right_top" id="flow_param" >
+		<form class="myForm" id="propertyForm">
+			<div class="form_title" style="cursor:move" id="flow_param_move">
+				属性设置
+			</div>
+			<div class="form_content">
+				<table>
+					<tr>
+						<td class="th">Id：</td>
+						<td><input type="text" readonly="readonly" style="width: 320px" id="ele_id" /></td>
+					</tr>
+					<tr>
+						<td class="th">Model：</td>
+						<td><input type="text" readonly="readonly" style="width: 320px" id="ele_model" /></td>
+					</tr>
+					<tr>
+						<td class="th">Name：</td>
+						<td><input type="text" readonly="readonly"  style="width: 320px" id="ele_name" /></td>
+					</tr>
+					<tr>
+						<td class="th">Type：</td>
+						<td>
+							<select style="width: 320px" id="ele_type" onchange="hiddenDetail(this)" >
+<!-- 							  <option selected="selected" value="SHELL">SHELL</option> -->
+							  <option  value="Java">JAVA</option>
+							  <option  value="fileLoad">数据文件加载</option>
+							  <option  value="SqlProcRes">存储过程-有返回值</option>
+							  <option  value="SqlProcNoRes">存储过程-无返回值</option>
+							  <option  value="LinuxLocal">Linux-本地</option>
+							  <option  value="LinuxSSH">Linux-SSH远程</option>
+							  <option  value="SQL">SQL</option>
+							  <option  value="Http">Http</option>
+<!-- 							  <option  value="CLASS">CLASS</option> -->
+							</select>
+						</td>
+					</tr>
+					<tr id="JDBC">
+						<td class="th">JDBC：</td>
+						<td>
+							<select style="width: 320px" id="ele_jdbc" >
+							  <option value="#">请选择</option>
+							</select>
+						</td>
+					</tr>
+					<tr id="SSH">
+						<td class="th">SSH：</td>
+						<td>
+							<select style="width: 320px" id="ele_ssh" >
+							  <option value="#">请选择</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="th" style="vertical-align: top;">Src：</td>
+						<td>
+							<textarea rows="40" cols="50" style="width: 320px" id="ele_src" /></textarea>
+						</td>
+					</tr>
+<!-- 					<tr> -->
+<!-- 						<td class="th">Type：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_type" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">Left-r：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_left" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">Top-r：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_top" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">Width：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_width" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">Height：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_height" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">From：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_from" /></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td class="th">To：</td> -->
+<!-- 						<td><input type="text" style="width: 120px" id="ele_to" /></td> -->
+<!-- 					</tr> -->
+				</table>
+			</div>
+			<div class="form_btn_div">
+				<input type="reset" value="重置" /> <input type="button" value="确定"
+					th:onclick="javascript:save(demo);" />
+			</div>
+		</form>
+	</div>
+	<!-- 	<div style="clear: both"> -->
+	<!-- 		<input id="submit" type="button" value='导出结果' onclick="Export()" /> -->
+	<!-- 		<textarea id="result" row="6"></textarea> -->
+	<!-- 	</div> -->
+</body>
+</html>

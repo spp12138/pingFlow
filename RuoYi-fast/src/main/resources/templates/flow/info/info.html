@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('调度管理列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                	<div class="select-list">
+						<ul>
+							<li>
+								流程名称：<input type="text" name="flowName"/>
+							</li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="flow:info:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+<!--                 <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="flow:info:edit"> -->
+<!--                     <i class="fa fa-edit"></i> 修改 -->
+<!--                 </a> -->
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="flow:info:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="flow:info:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('flow:info:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('flow:info:remove')}]];
+        var prefix = ctx + "flow/info";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "调度管理",
+                columns: [{
+                    checkbox: true
+                },
+//                 {
+//                     field : 'flowId', 
+//                     title : '流程ID',
+// 		            sortable: true
+//                 },
+                {
+                    field : 'flowName', 
+                    title : '流程名称',
+		            sortable: true
+                },
+		        {
+		            field: 'createBy',
+		            title: '创建人',
+		            sortable: true
+		        },
+		        {
+		            field: 'createTime',
+		            title: '创建时间',
+		            sortable: true
+		        },
+		        {
+		            field: 'updateBy',
+		            title: '最后修改人',
+		            sortable: true
+		        },
+		        {
+		            field: 'updateTime',
+		            title: '最后修改时间',
+		            sortable: true
+		        },
+                {
+                    field : 'remark', 
+                    title : '备注'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+		                var actions = [];
+		                actions.push('<a class="btn btn-info btn-xs ' + editFlag + '" style="margin-right: 5px;" href="javascript:void(0)" onclick="exeFlow(\'' + row.flowId + '\',\'' + row.flowName + '\')"><i class="fa fa-thumbs-up"></i>执行</a>');
+		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="detail(\'' + row.flowId + '\',\'' + row.flowName + '\')"><i class="fa fa-edit"></i>打开</a> ');
+		                actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="openParam(\'' + row.flowId + '\',\'' + row.flowName + '\')"><i class="fa fa-edit"></i>参数</a>');
+// 		                actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.flowId + '\')"><i class="fa fa-remove"></i>删除</a>');
+		                return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        
+		/*流程参数设置*/
+		function openParam(flow_id,flowName) {
+		    var url = ctx + 'flow/param/info/' + flow_id;
+		    $.modal.openTab(flowName+"流程参数设置", url);
+		}
+		/*流程定义*/
+		function detail(flow_id,flowName) {
+		    var url = prefix + '/openFlow/' + flow_id;
+		    $.modal.openTab(flowName+"流程定义", url);
+		}
+		/*添加临时变量*/
+		function addParam() {
+		    $('#paramList').html($('#paramList').html()+'<br/><input type="text" class="paramList"  placeholder="请输入参数名称" /><input type="text" class="paramList"  placeholder="请输入参数值"/>');
+		    //找到最外框设置高度
+		    var paramHieght_zw = parseInt($('#paramList').parent().parent().css("height").replace("px",""))+30;
+		    //找到上一层设置高度
+		    var paramHieght = parseInt($('#paramList').parent().css("height").replace("px",""))+30;
+		    if(paramHieght_zw < 600){
+			    $('#paramList').parent().parent().css("height",paramHieght_zw+"px")
+			    $('#paramList').parent().css("height",paramHieght+"px")
+		    }
+		}
+		/*执行流程*/
+		function exeFlow(flow_id,flowName) {
+			var paramHtml = '<div id="paramList">';
+			//后来想想这按钮没用,注释掉
+// 			paramHtml += '<a class="btn btn-info" onclick="addParam();"><i class="fa"></i>&nbsp;新增临时参数</a>';
+			paramHtml += '<br/><input type="text" readonly  class="paramList" value="参数名称" style="text-align: center;" /><input type="text" readonly  class="paramList" value="参数值" style="text-align: center;"/>';
+			
+			var ConfirmHieght = 1;
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : ctx + "flow/param/list",
+				data : {
+					"flowId": flow_id
+				},
+				async : false,
+				error : function(request) {
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					for (var i = 0; i < data.rows.length; i++) {
+						var key = data.rows[i].paramKey;
+						var value = data.rows[i].paramValue;
+						ConfirmHieght ++ ;
+						paramHtml += '<br/><input type="text" class="paramList" value="'+key+'" style="background-color: floralwhite;" /><input type="text" class="paramList" value="'+value+'" style="background-color: floralwhite;"/>';
+					}
+				}
+			});
+			paramHtml += '</div>';
+			
+			layer.confirm('是否执行['+flowName+']流程<br\>注意:执行批量作业前请注意修改以下参数!'+paramHtml,{icon: 3, title:'提示',area:['500px',(250+ConfirmHieght*30)+'px'],btn: ['执行','取消'] }, function(){
+				//执行之前先把参数转换一下,传到后台
+				var paramList = $('#paramList input')
+				var paramMap = '{';
+				for(var i = 2 ; i <paramList.length ;i++){
+					paramMap += '"'+$(paramList[i]).val()+'":"'+$(paramList[i+1]).val()+'",'
+				    i++;//2个一组, 所以每次取两个,将i++
+				}
+				paramMap=paramMap.substring(0,paramMap.length-1);
+				paramMap+="}";
+				
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : ctx + "flow/exeFlow/exe",
+					data : {
+						"flowId": flow_id,
+						"paramMap":paramMap
+					},
+					async : false,
+					error : function(request) {
+						$.modal.alertError("系统错误");
+					},
+					success : function(data) {
+						layer.msg('开始执行!', {icon: 1}); 
+					}
+				});
+			}, function(){
+				layer.msg('已取消!', {icon: 1}); 
+			});
+		}
+    </script>
+</body>
+</html>

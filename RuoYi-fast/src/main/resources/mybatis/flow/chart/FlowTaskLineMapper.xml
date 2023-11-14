@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.chart.line.mapper.FlowTaskLineMapper">
+    
+    <resultMap type="FlowTaskLine" id="FlowTaskLineResult">
+        <result property="flowid"    column="flowid"    />
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="C_type"    />
+        <result property="from"    column="C_from"    />
+        <result property="to"    column="C_to"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowTaskLineVo">
+        select flowid, id, name, C_type, C_from, C_to, create_by, create_time, update_by, update_time, remark from flow_task_line
+    </sql>
+
+    <select id="selectFlowTaskLineList" parameterType="FlowTaskLine" resultMap="FlowTaskLineResult">
+        <include refid="selectFlowTaskLineVo"/>
+        <where>  
+            <if test="flowid != null "> and flowid = #{flowid}</if>
+            <if test="name != null "> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and C_type = #{type}</if>
+            <if test="from != null "> and C_from = #{from}</if>
+            <if test="to != null "> and C_to = #{to}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowTaskLineById" parameterType="String" resultMap="FlowTaskLineResult">
+        <include refid="selectFlowTaskLineVo"/>
+        where flowid = #{flowid}
+    </select>
+        
+    <insert id="insertFlowTaskLine" parameterType="FlowTaskLine">
+        insert into flow_task_line
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowid != null ">flowid,</if>
+            <if test="id != null ">id,</if>
+            <if test="name != null ">name,</if>
+            <if test="type != null ">C_type,</if>
+            <if test="from != null ">C_from,</if>
+            <if test="to != null ">C_to,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowid != null ">#{flowid},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="name != null ">#{name},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="from != null ">#{from},</if>
+            <if test="to != null ">#{to},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowTaskLine" parameterType="FlowTaskLine">
+        update flow_task_line
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="id != null ">id = #{id},</if>
+            <if test="name != null ">name = #{name},</if>
+            <if test="type != null ">C_type = #{type},</if>
+            <if test="from != null ">C_from = #{from},</if>
+            <if test="to != null ">C_to = #{to},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where flowid = #{flowid}
+    </update>
+
+    <delete id="deleteFlowTaskLineById" parameterType="String">
+        delete from flow_task_line where flowid = #{flowid}
+    </delete>
+
+    <delete id="deleteFlowTaskLineByIds" parameterType="String">
+        delete from flow_task_line where flowid in 
+        <foreach item="flowid" collection="array" open="(" separator="," close=")">
+            #{flowid}
+        </foreach>
+    </delete>
+    
+</mapper>

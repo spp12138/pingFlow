@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('【请填写功能名称】列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="flow:info:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="flow:info:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="flow:info:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="flow:info:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('flow:info:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('flow:info:remove')}]];
+        var prefix = ctx + "flow/info";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "【请填写功能名称】",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'flowId', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml0', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml1', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml2', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml3', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml4', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml5', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml6', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml7', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml8', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml9', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml10', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml11', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml12', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml13', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml14', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml15', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml16', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml17', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml18', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml19', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml20', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml21', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml22', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml23', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml24', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml25', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml26', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml27', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml28', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'flowXml29', 
+                    title : '${comment}'
+                },
+                {
+                    field : 'remark', 
+                    title : '${comment}'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.flowId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.flowId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

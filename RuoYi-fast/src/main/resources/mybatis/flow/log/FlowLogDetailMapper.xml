@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.flow.log.mapper.FlowLogDetailMapper">
+    
+    <resultMap type="FlowLogDetail" id="FlowLogDetailResult">
+        <result property="id"    column="id"    />
+        <result property="flowSlId"    column="flow_sl_id"    />
+        <result property="flowName"    column="flow_name"    />
+        <result property="flowNodeId"    column="flow_node_id"    />
+        <result property="flowNodeName"    column="flow_node_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="stauts"    column="stauts"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFlowLogDetailVo">
+        select id, flow_sl_id, flow_name, flow_node_id, flow_node_name, start_time, end_time, stauts, create_by, create_time, update_by, update_time, remark from flow_log_detail
+    </sql>
+
+    <select id="selectFlowLogDetailList" parameterType="FlowLogDetail" resultMap="FlowLogDetailResult">
+        <include refid="selectFlowLogDetailVo"/>
+        <where>  
+            <if test="flowSlId != null "> and flow_sl_id = #{flowSlId}</if>
+            <if test="flowName != null "> and flow_name like concat('%', #{flowName}, '%')</if>
+            <if test="flowNodeId != null "> and flow_node_id = #{flowNodeId}</if>
+            <if test="flowNodeName != null "> and flow_node_name like concat('%', #{flowNodeName}, '%')</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="stauts != null "> and stauts = #{stauts}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowLogDetailById" parameterType="String" resultMap="FlowLogDetailResult">
+        <include refid="selectFlowLogDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFlowLogDetail" parameterType="FlowLogDetail">
+        insert into flow_log_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="flowSlId != null ">flow_sl_id,</if>
+            <if test="flowName != null ">flow_name,</if>
+            <if test="flowNodeId != null ">flow_node_id,</if>
+            <if test="flowNodeName != null ">flow_node_name,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="stauts != null ">stauts,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="remark != null ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="flowSlId != null ">#{flowSlId},</if>
+            <if test="flowName != null ">#{flowName},</if>
+            <if test="flowNodeId != null ">#{flowNodeId},</if>
+            <if test="flowNodeName != null ">#{flowNodeName},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="stauts != null ">#{stauts},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="remark != null ">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlowLogDetail" parameterType="FlowLogDetail">
+        update flow_log_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowSlId != null ">flow_sl_id = #{flowSlId},</if>
+            <if test="flowName != null ">flow_name = #{flowName},</if>
+            <if test="flowNodeId != null ">flow_node_id = #{flowNodeId},</if>
+            <if test="flowNodeName != null ">flow_node_name = #{flowNodeName},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="stauts != null ">stauts = #{stauts},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="remark != null ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFlowLogDetailById" parameterType="String">
+        delete from flow_log_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteFlowLogDetailByIds" parameterType="String">
+        delete from flow_log_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
